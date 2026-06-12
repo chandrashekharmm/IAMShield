@@ -1,18 +1,28 @@
 """
 IAMShield - MongoDB Database Connection & Seed Module
 """
+
 from pymongo import MongoClient
 import os
 
-print("MONGO_URI =", os.getenv("MONGO_URI"))
-DB_NAME   = os.getenv("DB_NAME",   "iamshield")
+# Read environment variables from Render / .env
+MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("DB_NAME", "iamshield")
+
+print("MONGO_URI =", MONGO_URI)
+print("DB_NAME =", DB_NAME)
 
 _client = None
 
 def get_db():
     global _client
+
     if _client is None:
-        _client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+        _client = MongoClient(
+            MONGO_URI,
+            serverSelectionTimeoutMS=5000
+        )
+
     return _client[DB_NAME]
 
 
